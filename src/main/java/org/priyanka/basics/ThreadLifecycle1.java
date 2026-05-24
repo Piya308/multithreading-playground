@@ -49,7 +49,8 @@ public class ThreadLifecycle1 {
         Thread t3 = new Thread(() -> {
 
             long sum = 0;
-
+/*This code is creating a thread whose only purpose is to keep CPU busy for a long time
+so that you can observe the thread in:--RUNNABLE*/
             for (long i = 0; i < 1_000_000_000L; i++) {
                 sum += i;
 
