@@ -13,15 +13,16 @@ class BankAccount {
         {
             System.out.println(Thread.currentThread().getName() + " attempting to withdraw " + amount);
             try{
-                if(lock.tryLock(1000, TimeUnit.MILLISECONDS)){
+                if(lock.tryLock(4000, TimeUnit.MILLISECONDS)){
                     if (balance >= amount) {
                         try {
                             System.out.println(Thread.currentThread().getName() + " proceeding to withdraw" + amount);
                             Thread.sleep(3000);
                             balance -= amount;
-                            System.out.println(Thread.currentThread().getName() + " completed withdrawal. Remaining amount: " + balance);
+                            System.out.println(new StringBuilder().append(Thread.currentThread().getName()).append(" completed withdrawal. Remaining amount: ").append(balance).toString());
 
                         } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
                             throw new RuntimeException(e);
                         }
                         finally {
@@ -35,6 +36,7 @@ class BankAccount {
                     System.out.println(Thread.currentThread().getName() +"Could not acquire the locck, will try later.");
                 }
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException(e);
             }
 
